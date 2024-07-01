@@ -1,1 +1,4 @@
--repackageclasses dev.sanmer.palette
+-repackageclasses dev.sanmer.color.picker
+
+# KotlinPoet
+-dontwarn javax.lang.model.**
