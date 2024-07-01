@@ -4,7 +4,7 @@ import timber.log.Timber
 
 class DebugTree : Timber.DebugTree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        super.log(priority, "<PALETTE_DEBUG>$tag", message, t)
+        super.log(priority, "<CP_DEBUG>$tag", message, t)
     }
 
     override fun createStackElementTag(element: StackTraceElement): String {
