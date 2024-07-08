@@ -1,4 +1,4 @@
-package dev.sanmer.color.picker.ui.activity
+package dev.sanmer.color.picker.ui.main
 
 import android.content.Intent
 import android.net.Uri

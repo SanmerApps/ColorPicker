@@ -1,4 +1,4 @@
-package dev.sanmer.color.picker.ui.activity
+package dev.sanmer.color.picker.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
+import dev.sanmer.color.picker.ui.main.MainScreen
 import dev.sanmer.color.picker.ui.theme.AppTheme
 import dev.sanmer.color.picker.viewmodel.HomeViewModel
 
