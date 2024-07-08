@@ -46,6 +46,7 @@ private fun SystemBarStyle(
                 darkMode -> SystemBarStyle.dark(
                     navigationBarScrim.toArgb()
                 )
+
                 else -> SystemBarStyle.light(
                     navigationBarScrim.toArgb(),
                     navigationBarScrim.toArgb(),

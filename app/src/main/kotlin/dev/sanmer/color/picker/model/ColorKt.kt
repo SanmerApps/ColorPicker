@@ -14,7 +14,7 @@ import java.io.OutputStream
 data class ColorKt(
     val light: ColorScheme,
     val dark: ColorScheme
-){
+) {
     private val Color.hexValue get() = value.toString(16).substring(0, 8).uppercase()
 
     private fun CodeBlock.Builder.color(name: String, color: Color, end: String = ",\n") {
