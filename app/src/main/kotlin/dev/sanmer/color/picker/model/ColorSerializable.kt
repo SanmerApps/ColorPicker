@@ -8,8 +8,9 @@ import kotlinx.serialization.Serializable
 value class ColorSerializable(
     val value: ULong
 ) {
+    val color get() = Color(value)
+
     companion object {
         val Color.serializer get() = ColorSerializable(value)
-        val ColorSerializable.color get() = Color(value)
     }
 }
