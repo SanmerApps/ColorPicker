@@ -23,10 +23,14 @@ class ColorJson(
     )
 
     fun encodeTo(output: OutputStream) {
-        Json.encodeToStream(this, output)
+        endpointJson.encodeToStream(this, output)
     }
 
     companion object {
+        private val endpointJson = Json {
+            prettyPrint = true
+        }
+
         const val FILE_NAME = "color.json"
 
         fun decodeFrom(input: InputStream): ColorJson =
