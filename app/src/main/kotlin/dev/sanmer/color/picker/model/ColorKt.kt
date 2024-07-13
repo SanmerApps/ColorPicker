@@ -93,6 +93,7 @@ data class ColorKt(
             ClassName("androidx.compose.ui.graphics", "Color")
         }
 
+        const val MIME_TYPE = "text/x-kotlin"
         const val FILE_NAME = "Color.kt"
     }
 }

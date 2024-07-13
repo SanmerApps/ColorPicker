@@ -125,13 +125,13 @@ private fun ButtonsItem(
     }
 
     val exportJsonLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument("application/json")
+        ActivityResultContracts.CreateDocument(ColorJson.MIME_TYPE)
     ) { uri ->
         if (uri != null) exportJson(uri)
     }
 
     val exportKotlinLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument("text/x-kotlin")
+        ActivityResultContracts.CreateDocument(ColorKt.MIME_TYPE)
     ) { uri ->
         if (uri != null) exportKotlin(uri)
     }

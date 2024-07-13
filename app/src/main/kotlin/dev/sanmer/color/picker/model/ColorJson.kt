@@ -31,6 +31,7 @@ class ColorJson(
             prettyPrint = true
         }
 
+        const val MIME_TYPE = "application/json"
         const val FILE_NAME = "color.json"
 
         fun decodeFrom(input: InputStream): ColorJson =
