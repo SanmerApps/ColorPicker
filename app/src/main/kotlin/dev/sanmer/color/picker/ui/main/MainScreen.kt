@@ -71,7 +71,7 @@ fun MainScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             ButtonsItem(
-                import = viewModel::importFromJson,
+                importJson = viewModel::importFromJson,
                 exportJson = viewModel::exportToJson,
                 exportKotlin = viewModel::exportToKotlin
             )
@@ -112,16 +112,16 @@ fun MainScreen(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ButtonsItem(
-    import: (Uri) -> Unit,
+    importJson: (Uri) -> Unit,
     exportJson: (Uri) -> Unit,
     exportKotlin: (Uri) -> Unit
 ) = OutlinedCard(
     shape = RoundedCornerShape(15.dp)
 ) {
-    val importLauncher = rememberLauncherForActivityResult(
+    val importJsonLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
-        if (uri != null) import(uri)
+        if (uri != null) importJson(uri)
     }
 
     val exportJsonLauncher = rememberLauncherForActivityResult(
@@ -144,7 +144,7 @@ private fun ButtonsItem(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         OutlinedButton(
-            onClick = { importLauncher.launch("application/json") }
+            onClick = { importJsonLauncher.launch(ColorJson.MIME_TYPE) }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.json),
