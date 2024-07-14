@@ -2,8 +2,6 @@ package dev.sanmer.color.picker
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import dev.sanmer.color.picker.utils.timber.DebugTree
-import dev.sanmer.color.picker.utils.timber.ReleaseTree
 import timber.log.Timber
 
 @HiltAndroidApp
@@ -13,6 +11,22 @@ class App : Application() {
             Timber.plant(DebugTree())
         } else {
             Timber.plant(ReleaseTree())
+        }
+    }
+
+    class DebugTree : Timber.DebugTree() {
+        override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+            super.log(priority, "<CP_DEBUG>$tag", message, t)
+        }
+
+        override fun createStackElementTag(element: StackTraceElement): String {
+            return super.createStackElementTag(element) + "(L${element.lineNumber})"
+        }
+    }
+
+    class ReleaseTree : Timber.DebugTree() {
+        override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+            super.log(priority, "<CP_REL>$tag", message, t)
         }
     }
 }
