@@ -42,8 +42,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.sanmer.color.picker.Const
 import dev.sanmer.color.picker.R
-import dev.sanmer.color.picker.app.Const
 import dev.sanmer.color.picker.model.ColorJson
 import dev.sanmer.color.picker.model.ColorKt
 import dev.sanmer.color.picker.model.ColorSchemeCompat
