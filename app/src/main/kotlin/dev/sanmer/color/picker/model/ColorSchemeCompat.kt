@@ -52,9 +52,8 @@ data class ColorSchemeCompat(
             Color("Surface Container", colorScheme.surfaceContainer, colorScheme.onSurfaceVariant),
             Color("Surface Container High", colorScheme.surfaceContainerHigh, colorScheme.onSurfaceVariant),
             Color("Surface Container Highest", colorScheme.surfaceContainerHighest, colorScheme.onSurfaceVariant),
-            Color("Surface Tint", colorScheme.surfaceTint, colorScheme.surface),
             Color("On Surface", colorScheme.onSurface, colorScheme.surface),
-            Color("On Surface Container", colorScheme.onSurfaceVariant, colorScheme.surfaceContainer),
+            Color("On Surface Variant", colorScheme.onSurfaceVariant, colorScheme.surfaceVariant),
             Color("Outline", colorScheme.outline, colorScheme.surface),
             Color("Outline Variant", colorScheme.outlineVariant, colorScheme.onSurface),
         )
@@ -65,6 +64,7 @@ data class ColorSchemeCompat(
             Color("Inverse Surface", colorScheme.inverseSurface, colorScheme.surface),
             Color("Inverse On Surface", colorScheme.inverseOnSurface, colorScheme.onSurface),
             Color("Inverse Primary", colorScheme.inversePrimary, colorScheme.primary),
+            Color("Surface Tint", colorScheme.surfaceTint, colorScheme.surface),
             Color("Background", colorScheme.background, colorScheme.onBackground),
             Color("Scrim", colorScheme.scrim, ComposeColor.White),
         )
