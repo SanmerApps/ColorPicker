@@ -59,12 +59,12 @@ fun MainScreen(
         topBar = {
             TopBar(scrollBehavior = scrollBehavior)
         }
-    ) { innerPadding ->
+    ) { contentPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
                 .verticalScroll(rememberScrollState())
+                .padding(contentPadding)
                 .padding(all = 20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
