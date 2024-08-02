@@ -14,7 +14,6 @@ hilt = "2.51.1"
 kotlin = "2.0.0"
 kotlinPoet = "1.18.1"
 kotlinxCoroutines = "1.8.1"
-kotlinxDatetime = "0.6.0"
 kotlinxSerialization = "1.7.1"
 ksp = "2.0.0-1.0.24"
 timber = "5.0.1"
@@ -44,7 +43,6 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 squareup-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
