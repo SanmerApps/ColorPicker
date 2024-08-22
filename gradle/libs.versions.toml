@@ -15,7 +15,7 @@ kotlin = "2.0.10"
 kotlinPoet = "1.18.1"
 kotlinxCoroutines = "1.8.1"
 kotlinxSerialization = "1.7.1"
-ksp = "2.0.10-1.0.24"
+ksp = "2.0.20-1.0.24"
 timber = "5.0.1"
 
 [libraries]
