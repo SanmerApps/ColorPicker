@@ -117,22 +117,19 @@ private fun ButtonsItem(
     shape = RoundedCornerShape(15.dp)
 ) {
     val importJsonLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri ->
-        if (uri != null) importJson(uri)
-    }
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri -> if (uri != null) importJson(uri) }
+    )
 
     val exportJsonLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument(ColorJson.MIME_TYPE)
-    ) { uri ->
-        if (uri != null) exportJson(uri)
-    }
+        contract = ActivityResultContracts.CreateDocument(ColorJson.MIME_TYPE),
+        onResult = { uri -> if (uri != null) exportJson(uri) }
+    )
 
     val exportKotlinLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument(ColorKt.MIME_TYPE)
-    ) { uri ->
-        if (uri != null) exportKotlin(uri)
-    }
+        contract = ActivityResultContracts.CreateDocument(ColorKt.MIME_TYPE),
+        onResult = { uri -> if (uri != null) exportKotlin(uri) }
+    )
 
     FlowRow(
         modifier = Modifier

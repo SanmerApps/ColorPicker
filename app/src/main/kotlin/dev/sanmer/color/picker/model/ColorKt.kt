@@ -85,7 +85,7 @@ data class ColorKt(
         writer.write(content)
     }
 
-    companion object {
+    companion object Default {
         private val ColorSchemeClass by lazy {
             ClassName("androidx.compose.material3", "ColorScheme")
         }

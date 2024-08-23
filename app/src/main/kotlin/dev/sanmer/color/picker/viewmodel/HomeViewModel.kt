@@ -5,8 +5,6 @@ import android.content.Context
 import android.net.Uri
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +33,11 @@ class HomeViewModel @Inject constructor(
 
     val lightColors by derivedStateOf { ColorSchemeCompat(lightColorScheme) }
     val darkColors by derivedStateOf { ColorSchemeCompat(darkColorScheme) }
+
+    fun reload() {
+        lightColorScheme = dynamicLightColorScheme
+        darkColorScheme = dynamicDarkColorScheme
+    }
 
     fun colorScheme(darkTheme: Boolean) = when {
         darkTheme -> darkColorScheme
@@ -88,14 +91,6 @@ class HomeViewModel @Inject constructor(
             }.onFailure {
                 Timber.e(it)
             }
-        }
-    }
-
-    @Composable
-    fun ColorSchemeUpdatable() {
-        SideEffect {
-            lightColorScheme = dynamicLightColorScheme
-            darkColorScheme = dynamicDarkColorScheme
         }
     }
 }

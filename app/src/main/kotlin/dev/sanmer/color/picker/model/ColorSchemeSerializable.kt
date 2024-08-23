@@ -1,7 +1,7 @@
 package dev.sanmer.color.picker.model
 
 import androidx.compose.material3.ColorScheme
-import dev.sanmer.color.picker.model.ColorSerializable.Companion.serializer
+import dev.sanmer.color.picker.model.ColorSerializable.Default.serializer
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -123,7 +123,7 @@ data class ColorSchemeSerializable(
         )
     }
 
-    companion object {
+    companion object Default {
         val ColorScheme.serializer get() = ColorSchemeSerializable(this)
     }
 }

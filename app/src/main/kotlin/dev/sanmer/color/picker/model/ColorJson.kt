@@ -1,7 +1,7 @@
 package dev.sanmer.color.picker.model
 
 import androidx.compose.material3.ColorScheme
-import dev.sanmer.color.picker.model.ColorSchemeSerializable.Companion.serializer
+import dev.sanmer.color.picker.model.ColorSchemeSerializable.Default.serializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -26,7 +26,7 @@ class ColorJson(
         endpointJson.encodeToStream(this, output)
     }
 
-    companion object {
+    companion object Default {
         private val endpointJson = Json {
             prettyPrint = true
         }

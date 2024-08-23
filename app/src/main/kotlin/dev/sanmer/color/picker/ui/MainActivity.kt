@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.runtime.SideEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sanmer.color.picker.ui.main.MainScreen
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            viewModel.ColorSchemeUpdatable()
+            SideEffect(viewModel::reload)
 
             AppTheme(
                 colorScheme = viewModel::colorScheme

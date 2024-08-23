@@ -10,7 +10,7 @@ value class ColorSerializable(
 ) {
     val color get() = Color(value)
 
-    companion object {
+    companion object Default {
         val Color.serializer get() = ColorSerializable(value)
     }
 }
