@@ -1,6 +1,5 @@
 package dev.sanmer.color.picker.viewmodel
 
-import android.app.Application
 import android.content.Context
 import android.net.Uri
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -9,9 +8,10 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.sanmer.color.picker.model.ColorJson
 import dev.sanmer.color.picker.model.ColorKt
 import dev.sanmer.color.picker.model.ColorSchemeCompat
@@ -22,9 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    application: Application
-) : AndroidViewModel(application) {
-    private val context: Context by lazy { getApplication() }
+    @ApplicationContext private val context: Context
+) : ViewModel() {
     private val dynamicLightColorScheme get() = dynamicLightColorScheme(context)
     private val dynamicDarkColorScheme get() = dynamicDarkColorScheme(context)
 
