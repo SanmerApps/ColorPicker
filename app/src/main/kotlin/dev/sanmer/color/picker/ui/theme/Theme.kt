@@ -8,19 +8,23 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun AppTheme(
+    darkMode: Boolean = isSystemInDarkTheme(),
     colorScheme: (Boolean) -> ColorScheme,
     content: @Composable () -> Unit
 ) {
-    SystemBarStyle()
+    SystemBarStyle(
+        darkMode = darkMode
+    )
 
     MaterialTheme(
-        colorScheme = colorScheme(isSystemInDarkTheme()),
+        colorScheme = colorScheme(darkMode),
         shapes = Shapes,
         typography = Typography,
         content = content
@@ -29,12 +33,12 @@ fun AppTheme(
 
 @Composable
 private fun SystemBarStyle(
-    darkMode: Boolean = isSystemInDarkTheme(),
+    darkMode: Boolean,
     statusBarScrim: Color = Color.Transparent,
     navigationBarScrim: Color = Color.Transparent
 ) {
     val context = LocalContext.current
-    val activity = context as ComponentActivity
+    val activity = remember { context as ComponentActivity }
 
     SideEffect {
         activity.enableEdgeToEdge(
