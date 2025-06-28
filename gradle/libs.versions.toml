@@ -17,6 +17,7 @@ kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
 ksp = "2.2.0-2.0.2"
 timber = "5.0.1"
+webuix = "72241a9df4"
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
@@ -46,6 +47,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 squareup-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+webui-x = { group = "com.github.MMRLApp.WebUI-X-Portable", name = "webui", version.ref = "webuix" }
 
 [plugins]
 self-application = { id = "self.application", version = "unspecified" }

@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.sanmer.color.picker.Const
 import dev.sanmer.color.picker.R
+import dev.sanmer.color.picker.model.ColorCss
 import dev.sanmer.color.picker.model.ColorJson
 import dev.sanmer.color.picker.model.ColorKt
 import dev.sanmer.color.picker.model.ColorSchemeCompat
@@ -70,7 +71,8 @@ fun MainScreen(
             ButtonsItem(
                 importJson = viewModel::importFromJson,
                 exportJson = viewModel::exportToJson,
-                exportKotlin = viewModel::exportToKotlin
+                exportKotlin = viewModel::exportToKotlin,
+                exportCss = viewModel::exportToCss
             )
 
             ColorsItem(
@@ -110,7 +112,8 @@ fun MainScreen(
 private fun ButtonsItem(
     importJson: (Uri) -> Unit,
     exportJson: (Uri) -> Unit,
-    exportKotlin: (Uri) -> Unit
+    exportKotlin: (Uri) -> Unit,
+    exportCss: (Uri) -> Unit
 ) = OutlinedCard(
     shape = RoundedCornerShape(15.dp)
 ) {
@@ -127,6 +130,11 @@ private fun ButtonsItem(
     val exportKotlinLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(ColorKt.MIME_TYPE),
         onResult = { uri -> if (uri != null) exportKotlin(uri) }
+    )
+
+    val exportCssLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument(ColorCss.MIME_TYPE),
+        onResult = { uri -> if (uri != null) exportCss(uri) }
     )
 
     FlowRow(
@@ -169,6 +177,20 @@ private fun ButtonsItem(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.brand_kotlin),
+                contentDescription = null,
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+
+            Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
+
+            Text(text = stringResource(id = R.string.home_export))
+        }
+
+        FilledTonalButton(
+            onClick = { exportCssLauncher.launch(ColorCss.FILE_NAME) }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.css),
                 contentDescription = null,
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
