@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.sanmer.color.picker.model.ColorCss
 import dev.sanmer.color.picker.model.ColorJson
 import dev.sanmer.color.picker.model.ColorKt
 import dev.sanmer.color.picker.model.ColorSchemeCompat
@@ -86,6 +87,23 @@ class HomeViewModel @Inject constructor(
 
                 checkNotNull(context.contentResolver.openOutputStream(uri)).use(
                     colorKt::encodeTo
+                )
+            }.onFailure {
+                Timber.e(it)
+            }
+        }
+    }
+
+    fun exportToCss(uri: Uri) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                val colorCss = ColorCss(
+                    light = lightColorScheme,
+                    dark = darkColorScheme
+                )
+
+                checkNotNull(context.contentResolver.openOutputStream(uri)).use(
+                    colorCss::encodeTo
                 )
             }.onFailure {
                 Timber.e(it)

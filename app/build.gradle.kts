@@ -97,4 +97,6 @@ dependencies {
         exclude(module = "kotlin-reflect")
     }
     implementation(libs.timber)
+    // Compile only since we only need the types to compile the app
+    compileOnly(libs.webui.x)
 }
