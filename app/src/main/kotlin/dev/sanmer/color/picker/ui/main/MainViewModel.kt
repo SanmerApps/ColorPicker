@@ -1,4 +1,4 @@
-package dev.sanmer.color.picker.viewmodel
+package dev.sanmer.color.picker.ui.main
 
 import android.content.Context
 import android.net.Uri
@@ -10,19 +10,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.sanmer.color.picker.Logger
+import dev.sanmer.color.picker.annotation.ApplicationContext
 import dev.sanmer.color.picker.model.ColorJson
 import dev.sanmer.color.picker.model.ColorKt
 import dev.sanmer.color.picker.model.ColorSchemeCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import javax.inject.Inject
 
-@HiltViewModel
-class HomeViewModel @Inject constructor(
-    @param:ApplicationContext private val context: Context
+class MainViewModel(
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val dynamicLightColorScheme get() = dynamicLightColorScheme(context)
     private val dynamicDarkColorScheme get() = dynamicDarkColorScheme(context)
@@ -32,6 +29,8 @@ class HomeViewModel @Inject constructor(
 
     val lightColors by derivedStateOf { ColorSchemeCompat(lightColorScheme) }
     val darkColors by derivedStateOf { ColorSchemeCompat(darkColorScheme) }
+
+    private val logger = Logger.Android("MainViewModel")
 
     fun reload() {
         lightColorScheme = dynamicLightColorScheme
@@ -47,14 +46,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 checkNotNull(context.contentResolver.openInputStream(uri)).use(
-                    ColorJson::decodeFrom
+                    ColorJson.Default::decodeFrom
                 )
             }.onSuccess {
                 lightColorScheme = it.light.colorScheme
                 darkColorScheme = it.dark.colorScheme
 
             }.onFailure {
-                Timber.e(it)
+                logger.e(it)
             }
         }
     }
@@ -71,7 +70,7 @@ class HomeViewModel @Inject constructor(
                     colorJson::encodeTo
                 )
             }.onFailure {
-                Timber.e(it)
+                logger.e(it)
             }
         }
     }
@@ -88,7 +87,7 @@ class HomeViewModel @Inject constructor(
                     colorKt::encodeTo
                 )
             }.onFailure {
-                Timber.e(it)
+                logger.e(it)
             }
         }
     }
