@@ -8,6 +8,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.sanmer.color.picker.Logger
@@ -15,6 +16,7 @@ import dev.sanmer.color.picker.annotation.ApplicationContext
 import dev.sanmer.color.picker.model.ColorValue
 import dev.sanmer.color.picker.model.json.ColorJson
 import dev.sanmer.color.picker.model.kt.ColorKt
+import dev.sanmer.color.picker.model.ui.ColorCompat
 import dev.sanmer.color.picker.model.ui.ColorSchemeCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +34,8 @@ class MainViewModel(
     val darkColors by derivedStateOf { ColorSchemeCompat(darkColorScheme) }
 
     var colorValue by mutableStateOf(ColorValue.RGB)
+
+    var color by mutableStateOf(ColorCompat("", Color.Unspecified, Color.Unspecified))
 
     private val logger = Logger.Android("MainViewModel")
 

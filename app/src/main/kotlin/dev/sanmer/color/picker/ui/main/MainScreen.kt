@@ -1,10 +1,13 @@
 package dev.sanmer.color.picker.ui.main
 
+import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,10 +23,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
@@ -35,21 +40,36 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.toClipEntry
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.sanmer.color.picker.Const
 import dev.sanmer.color.picker.R
+import dev.sanmer.color.picker.ktx.alphaValue
+import dev.sanmer.color.picker.ktx.blueValue
+import dev.sanmer.color.picker.ktx.greenValue
+import dev.sanmer.color.picker.ktx.hexValue
+import dev.sanmer.color.picker.ktx.redValue
 import dev.sanmer.color.picker.model.ColorValue
 import dev.sanmer.color.picker.model.json.ColorJson
 import dev.sanmer.color.picker.model.kt.ColorKt
 import dev.sanmer.color.picker.model.ui.ColorCompat
 import dev.sanmer.color.picker.ui.component.CheckIcon
+import dev.sanmer.color.picker.ui.ktx.bottom
+import dev.sanmer.color.picker.ui.ktx.surface
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -57,6 +77,10 @@ fun MainScreen(
     viewModel: MainViewModel = koinViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    if (viewModel.color.name.isNotEmpty()) ColorBottomSheet(
+        color = viewModel.color,
+        onDismiss = { viewModel.color = viewModel.color.copy(name = "") }
+    )
 
     Scaffold(
         topBar = {
@@ -81,32 +105,38 @@ fun MainScreen(
 
             ColorsItem(
                 lightColors = viewModel.lightColors.primary,
-                darkColors = viewModel.darkColors.primary
+                darkColors = viewModel.darkColors.primary,
+                onColor = { viewModel.color = it }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.secondary,
-                darkColors = viewModel.darkColors.secondary
+                darkColors = viewModel.darkColors.secondary,
+                onColor = { viewModel.color = it }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.tertiary,
-                darkColors = viewModel.darkColors.tertiary
+                darkColors = viewModel.darkColors.tertiary,
+                onColor = { viewModel.color = it }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.error,
-                darkColors = viewModel.darkColors.error
+                darkColors = viewModel.darkColors.error,
+                onColor = { viewModel.color = it }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.surface,
-                darkColors = viewModel.darkColors.surface
+                darkColors = viewModel.darkColors.surface,
+                onColor = { viewModel.color = it }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.other,
-                darkColors = viewModel.darkColors.other
+                darkColors = viewModel.darkColors.other,
+                onColor = { viewModel.color = it }
             )
         }
     }
@@ -216,7 +246,8 @@ private fun ColorValueButton(
 @Composable
 private fun ColorsItem(
     lightColors: List<ColorCompat>,
-    darkColors: List<ColorCompat>
+    darkColors: List<ColorCompat>,
+    onColor: (ColorCompat) -> Unit
 ) = Surface(
     shape = RoundedCornerShape(15.dp)
 ) {
@@ -227,7 +258,9 @@ private fun ColorsItem(
             modifier = Modifier.fillMaxWidth(0.5f)
         ) {
             lightColors.forEach {
-                ColorItem(it)
+                ColorItem(it) {
+                    onColor(it)
+                }
             }
         }
 
@@ -235,7 +268,9 @@ private fun ColorsItem(
             modifier = Modifier.fillMaxWidth()
         ) {
             darkColors.forEach {
-                ColorItem(it)
+                ColorItem(it) {
+                    onColor(it)
+                }
             }
         }
     }
@@ -243,9 +278,14 @@ private fun ColorsItem(
 
 @Composable
 private fun ColorItem(
-    color: ColorCompat
+    color: ColorCompat,
+    onClick: () -> Unit
 ) = Box(
     modifier = Modifier
+        .clickable(
+            enabled = true,
+            onClick = onClick
+        )
         .background(color = color.containerColor)
         .fillMaxWidth()
         .height(60.dp)
@@ -257,6 +297,89 @@ private fun ColorItem(
         color = color.contentColor,
         style = MaterialTheme.typography.bodyMedium
     )
+}
+
+@Composable
+private fun ColorBottomSheet(
+    color: ColorCompat,
+    onDismiss: () -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val hexValue by remember { derivedStateOf { color.containerColor.hexValue } }
+    val rgbValue by remember {
+        derivedStateOf {
+            with(color.containerColor) { "(${redValue}, ${greenValue}, ${blueValue}, ${alphaValue})" }
+        }
+    }
+
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = onDismiss,
+        shape = MaterialTheme.shapes.large.bottom(0.dp)
+    ) {
+        Text(
+            text = color.name,
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(bottom = 20.dp)
+        )
+
+        ValueItem(
+            icon = R.drawable.color_filter,
+            value = rgbValue,
+            modifier = Modifier.padding(horizontal = 20.dp)
+        )
+
+        ValueItem(
+            icon = R.drawable.hash,
+            value = hexValue,
+            modifier = Modifier.padding(all = 20.dp)
+        )
+    }
+}
+
+@Composable
+private fun ValueItem(
+    @DrawableRes icon: Int,
+    value: String,
+    modifier: Modifier = Modifier
+) {
+    val clipboard = LocalClipboard.current
+    val scope = rememberCoroutineScope()
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .surface(
+                shape = MaterialTheme.shapes.medium,
+                backgroundColor = MaterialTheme.colorScheme.surface,
+                border = CardDefaults.outlinedCardBorder()
+            )
+            .clickable(
+                enabled = true,
+                onClick = {
+                    scope.launch {
+                        clipboard.setClipEntry(
+                            ClipData.newPlainText("", value).toClipEntry()
+                        )
+                    }
+                }
+            )
+            .padding(all = 20.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(15.dp)
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = null
+        )
+
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
 }
 
 @Composable
