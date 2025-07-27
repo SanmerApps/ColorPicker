@@ -27,6 +27,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -42,9 +45,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.sanmer.color.picker.Const
 import dev.sanmer.color.picker.R
-import dev.sanmer.color.picker.model.ColorJson
-import dev.sanmer.color.picker.model.ColorKt
-import dev.sanmer.color.picker.model.ColorSchemeCompat
+import dev.sanmer.color.picker.model.ColorValue
+import dev.sanmer.color.picker.model.json.ColorJson
+import dev.sanmer.color.picker.model.kt.ColorKt
+import dev.sanmer.color.picker.model.ui.ColorCompat
+import dev.sanmer.color.picker.ui.component.CheckIcon
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -67,9 +72,11 @@ fun MainScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             ButtonsItem(
+                colorValue = viewModel.colorValue,
+                setColorValue = viewModel::colorValue::set,
                 importJson = viewModel::importFromJson,
                 exportJson = viewModel::exportToJson,
-                exportKotlin = viewModel::exportToKotlin
+                exportKotlin = viewModel::exportToKotlin,
             )
 
             ColorsItem(
@@ -109,7 +116,9 @@ fun MainScreen(
 private fun ButtonsItem(
     importJson: (Uri) -> Unit,
     exportJson: (Uri) -> Unit,
-    exportKotlin: (Uri) -> Unit
+    exportKotlin: (Uri) -> Unit,
+    colorValue: ColorValue,
+    setColorValue: (ColorValue) -> Unit
 ) = OutlinedCard(
     shape = RoundedCornerShape(15.dp)
 ) {
@@ -135,6 +144,11 @@ private fun ButtonsItem(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        ColorValueButton(
+            colorValue = colorValue,
+            setColorValue = setColorValue
+        )
+
         OutlinedButton(
             onClick = { importJsonLauncher.launch(ColorJson.MIME_TYPE) }
         ) {
@@ -180,9 +194,29 @@ private fun ButtonsItem(
 }
 
 @Composable
+private fun ColorValueButton(
+    colorValue: ColorValue,
+    setColorValue: (ColorValue) -> Unit
+) = SingleChoiceSegmentedButtonRow {
+    ColorValue.entries.forEachIndexed { index, value ->
+        SegmentedButton(
+            selected = colorValue == value,
+            onClick = { setColorValue(value) },
+            shape = SegmentedButtonDefaults.itemShape(
+                index = index,
+                count = ColorValue.entries.size
+            ),
+            icon = { SegmentedButtonDefaults.CheckIcon(colorValue == value) }
+        ) {
+            Text(text = value.name)
+        }
+    }
+}
+
+@Composable
 private fun ColorsItem(
-    lightColors: List<ColorSchemeCompat.Color>,
-    darkColors: List<ColorSchemeCompat.Color>
+    lightColors: List<ColorCompat>,
+    darkColors: List<ColorCompat>
 ) = Surface(
     shape = RoundedCornerShape(15.dp)
 ) {
@@ -209,19 +243,19 @@ private fun ColorsItem(
 
 @Composable
 private fun ColorItem(
-    color: ColorSchemeCompat.Color
+    color: ColorCompat
 ) = Box(
     modifier = Modifier
         .background(color = color.containerColor)
         .fillMaxWidth()
-        .height(60.dp),
+        .height(60.dp)
+        .padding(all = 10.dp),
     contentAlignment = Alignment.TopStart
 ) {
     Text(
         text = color.name,
         color = color.contentColor,
-        style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.padding(all = 10.dp),
+        style = MaterialTheme.typography.bodyMedium
     )
 }
 

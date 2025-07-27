@@ -12,9 +12,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.sanmer.color.picker.Logger
 import dev.sanmer.color.picker.annotation.ApplicationContext
-import dev.sanmer.color.picker.model.ColorJson
-import dev.sanmer.color.picker.model.ColorKt
-import dev.sanmer.color.picker.model.ColorSchemeCompat
+import dev.sanmer.color.picker.model.ColorValue
+import dev.sanmer.color.picker.model.json.ColorJson
+import dev.sanmer.color.picker.model.kt.ColorKt
+import dev.sanmer.color.picker.model.ui.ColorSchemeCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -29,6 +30,8 @@ class MainViewModel(
 
     val lightColors by derivedStateOf { ColorSchemeCompat(lightColorScheme) }
     val darkColors by derivedStateOf { ColorSchemeCompat(darkColorScheme) }
+
+    var colorValue by mutableStateOf(ColorValue.RGB)
 
     private val logger = Logger.Android("MainViewModel")
 
@@ -45,13 +48,12 @@ class MainViewModel(
     fun importFromJson(uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                checkNotNull(context.contentResolver.openInputStream(uri)).use(
-                    ColorJson.Default::decodeFrom
-                )
+                checkNotNull(context.contentResolver.openInputStream(uri)).use { input ->
+                    ColorJson.decodeFrom(colorValue, input)
+                }
             }.onSuccess {
-                lightColorScheme = it.light.colorScheme
-                darkColorScheme = it.dark.colorScheme
-
+                lightColorScheme = it.light
+                darkColorScheme = it.dark
             }.onFailure {
                 logger.e(it)
             }
@@ -66,9 +68,9 @@ class MainViewModel(
                     dark = darkColorScheme
                 )
 
-                checkNotNull(context.contentResolver.openOutputStream(uri)).use(
-                    colorJson::encodeTo
-                )
+                checkNotNull(context.contentResolver.openOutputStream(uri)).use { output ->
+                    colorJson.encodeTo(colorValue, output)
+                }
             }.onFailure {
                 logger.e(it)
             }
@@ -83,9 +85,9 @@ class MainViewModel(
                     dark = darkColorScheme
                 )
 
-                checkNotNull(context.contentResolver.openOutputStream(uri)).use(
-                    colorKt::encodeTo
-                )
+                checkNotNull(context.contentResolver.openOutputStream(uri)).use { output ->
+                    colorKt.encodeTo(colorValue, output)
+                }
             }.onFailure {
                 logger.e(it)
             }
