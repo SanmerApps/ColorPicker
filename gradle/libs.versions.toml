@@ -9,11 +9,11 @@ androidxCoreSplashscreen = "1.0.1"
 androidxLifecycle = "2.9.3"
 androidxNavigation = "2.9.3"
 koin = "4.1.1"
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 kotlinPoet = "2.2.0"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
-ksp = "2.2.10-2.0.2"
+ksp = "2.2.20-2.0.2"
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
