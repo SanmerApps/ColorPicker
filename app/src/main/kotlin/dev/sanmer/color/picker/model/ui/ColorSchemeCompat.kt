@@ -15,6 +15,15 @@ data class ColorSchemeCompat(
         )
     }
 
+    val primaryFixed by lazy {
+        listOf(
+            ColorCompat("Primary Fixed", colorScheme.primaryFixed, colorScheme.onPrimaryFixed),
+            ColorCompat("Primary Fixed Dim", colorScheme.primaryFixedDim, colorScheme.onPrimaryFixed),
+            ColorCompat("On Primary Fixed", colorScheme.onPrimaryFixed, colorScheme.primaryFixed),
+            ColorCompat("On Primary Fixed Variant", colorScheme.onPrimaryFixedVariant, colorScheme.primaryFixed)
+        )
+    }
+
     val secondary by lazy {
         listOf(
             ColorCompat("Secondary", colorScheme.secondary, colorScheme.onSecondary),
@@ -24,12 +33,30 @@ data class ColorSchemeCompat(
         )
     }
 
+    val secondaryFixed by lazy {
+        listOf(
+            ColorCompat("Secondary Fixed", colorScheme.secondaryFixed, colorScheme.onSecondaryFixed),
+            ColorCompat("Secondary Fixed Dim", colorScheme.secondaryFixedDim, colorScheme.onSecondaryFixed),
+            ColorCompat("On Secondary Fixed", colorScheme.onSecondaryFixed, colorScheme.secondaryFixed),
+            ColorCompat("On Secondary Fixed Variant", colorScheme.onSecondaryFixedVariant, colorScheme.secondaryFixed)
+        )
+    }
+
     val tertiary by lazy {
         listOf(
             ColorCompat("Tertiary", colorScheme.tertiary, colorScheme.onTertiary),
             ColorCompat("On Tertiary", colorScheme.onTertiary, colorScheme.tertiary),
             ColorCompat("Tertiary Container", colorScheme.tertiaryContainer, colorScheme.onTertiaryContainer),
             ColorCompat("On Tertiary Container", colorScheme.onTertiaryContainer, colorScheme.tertiaryContainer)
+        )
+    }
+
+    val tertiaryFixed by lazy {
+        listOf(
+            ColorCompat("Tertiary Fixed", colorScheme.tertiaryFixed, colorScheme.onTertiaryFixed),
+            ColorCompat("Tertiary Fixed Dim", colorScheme.tertiaryFixedDim, colorScheme.onTertiaryFixed),
+            ColorCompat("On Tertiary Fixed", colorScheme.onTertiaryFixed, colorScheme.tertiaryFixed),
+            ColorCompat("On Tertiary Fixed Variant", colorScheme.onTertiaryFixedVariant, colorScheme.tertiaryFixed)
         )
     }
 
@@ -47,11 +74,11 @@ data class ColorSchemeCompat(
             ColorCompat("Surface Dim", colorScheme.surfaceDim, colorScheme.onSurface),
             ColorCompat("Surface", colorScheme.surface, colorScheme.onSurface),
             ColorCompat("Surface Bright", colorScheme.surfaceBright, colorScheme.onSurface),
-            ColorCompat("Surface Container Lowest", colorScheme.surfaceContainerLowest, colorScheme.onSurfaceVariant),
-            ColorCompat("Surface Container Low", colorScheme.surfaceContainerLow, colorScheme.onSurfaceVariant),
-            ColorCompat("Surface Container", colorScheme.surfaceContainer, colorScheme.onSurfaceVariant),
-            ColorCompat("Surface Container High", colorScheme.surfaceContainerHigh, colorScheme.onSurfaceVariant),
-            ColorCompat("Surface Container Highest", colorScheme.surfaceContainerHighest, colorScheme.onSurfaceVariant),
+            ColorCompat("Surface Container Lowest", colorScheme.surfaceContainerLowest, colorScheme.onSurface),
+            ColorCompat("Surface Container Low", colorScheme.surfaceContainerLow, colorScheme.onSurface),
+            ColorCompat("Surface Container", colorScheme.surfaceContainer, colorScheme.onSurface),
+            ColorCompat("Surface Container High", colorScheme.surfaceContainerHigh, colorScheme.onSurface),
+            ColorCompat("Surface Container Highest", colorScheme.surfaceContainerHighest, colorScheme.onSurface),
             ColorCompat("On Surface", colorScheme.onSurface, colorScheme.surface),
             ColorCompat("On Surface Variant", colorScheme.onSurfaceVariant, colorScheme.surfaceVariant),
             ColorCompat("Outline", colorScheme.outline, colorScheme.surface),

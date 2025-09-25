@@ -70,7 +70,19 @@ object ColorSchemeSerializer : KSerializer<ColorScheme> {
         @Contextual val surfaceContainerHigh: Color,
         @Contextual val surfaceContainerHighest: Color,
         @Contextual val surfaceContainerLow: Color,
-        @Contextual val surfaceContainerLowest: Color
+        @Contextual val surfaceContainerLowest: Color,
+        @Contextual val primaryFixed: Color,
+        @Contextual val primaryFixedDim: Color,
+        @Contextual val onPrimaryFixed: Color,
+        @Contextual val onPrimaryFixedVariant: Color,
+        @Contextual val secondaryFixed: Color,
+        @Contextual val secondaryFixedDim: Color,
+        @Contextual val onSecondaryFixed: Color,
+        @Contextual val onSecondaryFixedVariant: Color,
+        @Contextual val tertiaryFixed: Color,
+        @Contextual val tertiaryFixedDim: Color,
+        @Contextual val onTertiaryFixed: Color,
+        @Contextual val onTertiaryFixedVariant: Color
     ) {
         constructor(colorScheme: ColorScheme) : this(
             primary = colorScheme.primary,
@@ -108,7 +120,19 @@ object ColorSchemeSerializer : KSerializer<ColorScheme> {
             surfaceContainerHigh = colorScheme.surfaceContainerHigh,
             surfaceContainerHighest = colorScheme.surfaceContainerHighest,
             surfaceContainerLow = colorScheme.surfaceContainerLow,
-            surfaceContainerLowest = colorScheme.surfaceContainerLowest
+            surfaceContainerLowest = colorScheme.surfaceContainerLowest,
+            primaryFixed = colorScheme.primaryFixed,
+            primaryFixedDim = colorScheme.primaryFixedDim,
+            onPrimaryFixed = colorScheme.onPrimaryFixed,
+            onPrimaryFixedVariant = colorScheme.onPrimaryFixedVariant,
+            secondaryFixed = colorScheme.secondaryFixed,
+            secondaryFixedDim = colorScheme.secondaryFixedDim,
+            onSecondaryFixed = colorScheme.onSecondaryFixed,
+            onSecondaryFixedVariant = colorScheme.onSecondaryFixedVariant,
+            tertiaryFixed = colorScheme.tertiaryFixed,
+            tertiaryFixedDim = colorScheme.tertiaryFixedDim,
+            onTertiaryFixed = colorScheme.onTertiaryFixed,
+            onTertiaryFixedVariant = colorScheme.onTertiaryFixedVariant
         )
 
         val colorScheme
@@ -148,7 +172,19 @@ object ColorSchemeSerializer : KSerializer<ColorScheme> {
                 surfaceContainerHigh = surfaceContainerHigh,
                 surfaceContainerHighest = surfaceContainerHighest,
                 surfaceContainerLow = surfaceContainerLow,
-                surfaceContainerLowest = surfaceContainerLowest
+                surfaceContainerLowest = surfaceContainerLowest,
+                primaryFixed = primaryFixed,
+                primaryFixedDim = primaryFixedDim,
+                onPrimaryFixed = onPrimaryFixed,
+                onPrimaryFixedVariant = onPrimaryFixedVariant,
+                secondaryFixed = secondaryFixed,
+                secondaryFixedDim = secondaryFixedDim,
+                onSecondaryFixed = onSecondaryFixed,
+                onSecondaryFixedVariant = onSecondaryFixedVariant,
+                tertiaryFixed = tertiaryFixed,
+                tertiaryFixedDim = tertiaryFixedDim,
+                onTertiaryFixed = onTertiaryFixed,
+                onTertiaryFixedVariant = onTertiaryFixedVariant
             )
     }
 }

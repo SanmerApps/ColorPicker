@@ -15,8 +15,8 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -110,14 +110,32 @@ fun MainScreen(
             )
 
             ColorsItem(
+                lightColors = emptyList(),
+                darkColors = viewModel.darkColors.primaryFixed,
+                onColor = { viewModel.color = it }
+            )
+
+            ColorsItem(
                 lightColors = viewModel.lightColors.secondary,
                 darkColors = viewModel.darkColors.secondary,
                 onColor = { viewModel.color = it }
             )
 
             ColorsItem(
+                lightColors = emptyList(),
+                darkColors = viewModel.darkColors.secondaryFixed,
+                onColor = { viewModel.color = it }
+            )
+
+            ColorsItem(
                 lightColors = viewModel.lightColors.tertiary,
                 darkColors = viewModel.darkColors.tertiary,
+                onColor = { viewModel.color = it }
+            )
+
+            ColorsItem(
+                lightColors = emptyList(),
+                darkColors = viewModel.darkColors.tertiaryFixed,
                 onColor = { viewModel.color = it }
             )
 
@@ -254,7 +272,7 @@ private fun ColorsItem(
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(
+        if (lightColors.isNotEmpty()) Column(
             modifier = Modifier.fillMaxWidth(0.5f)
         ) {
             lightColors.forEach {
@@ -288,8 +306,8 @@ private fun ColorItem(
         )
         .background(color = color.containerColor)
         .fillMaxWidth()
-        .height(60.dp)
-        .padding(all = 10.dp),
+        .requiredHeightIn(min = 65.dp)
+        .padding(all = 15.dp),
     contentAlignment = Alignment.TopStart
 ) {
     Text(

@@ -8,7 +8,6 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.squareup.kotlinpoet.withIndent
 import dev.sanmer.color.picker.ktx.alphaValue
 import dev.sanmer.color.picker.ktx.blueValue
 import dev.sanmer.color.picker.ktx.greenValue
@@ -44,6 +43,10 @@ class ColorSchemeProperty(
             }
         )
         add(end)
+    }
+
+    private inline fun CodeBlock.Builder.withIndent(builderAction: CodeBlock.Builder.() -> Unit): CodeBlock.Builder {
+        return indent().indent().also(builderAction).unindent().unindent()
     }
 
     private val initializer
@@ -85,7 +88,19 @@ class ColorSchemeProperty(
                 color("surfaceContainerHigh", colorScheme.surfaceContainerHigh)
                 color("surfaceContainerHighest", colorScheme.surfaceContainerHighest)
                 color("surfaceContainerLow", colorScheme.surfaceContainerLow)
-                color("surfaceContainerLowest", colorScheme.surfaceContainerLowest, "")
+                color("surfaceContainerLowest", colorScheme.surfaceContainerLowest)
+                color("primaryFixed", colorScheme.primaryFixed)
+                color("primaryFixedDim", colorScheme.primaryFixedDim)
+                color("onPrimaryFixed", colorScheme.onPrimaryFixed)
+                color("onPrimaryFixedVariant", colorScheme.onPrimaryFixedVariant)
+                color("secondaryFixed", colorScheme.secondaryFixed)
+                color("secondaryFixedDim", colorScheme.secondaryFixedDim)
+                color("onSecondaryFixed", colorScheme.onSecondaryFixed)
+                color("onSecondaryFixedVariant", colorScheme.onSecondaryFixedVariant)
+                color("tertiaryFixed", colorScheme.tertiaryFixed)
+                color("tertiaryFixedDim", colorScheme.tertiaryFixedDim)
+                color("onTertiaryFixed", colorScheme.onTertiaryFixed)
+                color("onTertiaryFixedVariant", colorScheme.onTertiaryFixedVariant, "")
             }
             add("\n)")
         }
