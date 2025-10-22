@@ -13,7 +13,7 @@ kotlin = "2.2.20"
 kotlinPoet = "2.2.0"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
-ksp = "2.2.20-2.0.4"
+ksp = "2.3.0"
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
