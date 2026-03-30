@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 data class ColorSchemeCompat(
     val colorScheme: ColorScheme
 ) {
-    val primary by lazy {
+    val primary by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Primary", colorScheme.primary, colorScheme.onPrimary),
             ColorCompat("On Primary", colorScheme.onPrimary, colorScheme.primary),
@@ -15,7 +15,7 @@ data class ColorSchemeCompat(
         )
     }
 
-    val primaryFixed by lazy {
+    val primaryFixed by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Primary Fixed", colorScheme.primaryFixed, colorScheme.onPrimaryFixed),
             ColorCompat("Primary Fixed Dim", colorScheme.primaryFixedDim, colorScheme.onPrimaryFixed),
@@ -24,7 +24,7 @@ data class ColorSchemeCompat(
         )
     }
 
-    val secondary by lazy {
+    val secondary by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Secondary", colorScheme.secondary, colorScheme.onSecondary),
             ColorCompat("On Secondary", colorScheme.onSecondary, colorScheme.secondary),
@@ -33,7 +33,7 @@ data class ColorSchemeCompat(
         )
     }
 
-    val secondaryFixed by lazy {
+    val secondaryFixed by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Secondary Fixed", colorScheme.secondaryFixed, colorScheme.onSecondaryFixed),
             ColorCompat("Secondary Fixed Dim", colorScheme.secondaryFixedDim, colorScheme.onSecondaryFixed),
@@ -42,7 +42,7 @@ data class ColorSchemeCompat(
         )
     }
 
-    val tertiary by lazy {
+    val tertiary by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Tertiary", colorScheme.tertiary, colorScheme.onTertiary),
             ColorCompat("On Tertiary", colorScheme.onTertiary, colorScheme.tertiary),
@@ -51,7 +51,7 @@ data class ColorSchemeCompat(
         )
     }
 
-    val tertiaryFixed by lazy {
+    val tertiaryFixed by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Tertiary Fixed", colorScheme.tertiaryFixed, colorScheme.onTertiaryFixed),
             ColorCompat("Tertiary Fixed Dim", colorScheme.tertiaryFixedDim, colorScheme.onTertiaryFixed),
@@ -60,7 +60,7 @@ data class ColorSchemeCompat(
         )
     }
 
-    val error by lazy {
+    val error by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Error", colorScheme.error, colorScheme.onError),
             ColorCompat("On Error", colorScheme.onError, colorScheme.error),
@@ -69,7 +69,7 @@ data class ColorSchemeCompat(
         )
     }
 
-    val surface by lazy {
+    val surface by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Surface Dim", colorScheme.surfaceDim, colorScheme.onSurface),
             ColorCompat("Surface", colorScheme.surface, colorScheme.onSurface),
@@ -86,7 +86,7 @@ data class ColorSchemeCompat(
         )
     }
 
-    val other by lazy {
+    val other by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
             ColorCompat("Inverse Surface", colorScheme.inverseSurface, colorScheme.surface),
             ColorCompat("Inverse On Surface", colorScheme.inverseOnSurface, colorScheme.onSurface),

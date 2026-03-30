@@ -28,7 +28,6 @@ class ColorJson(
 
     companion object Default {
         private val endpointJson = Json {
-            ignoreUnknownKeys
             prettyPrint = true
             serializersModule = serializersModuleOf(ColorSchemeSerializer)
         }

@@ -19,7 +19,7 @@ import kotlin.reflect.KProperty
 class ColorSchemeProperty(
     private val name: String,
     private val colorScheme: ColorScheme,
-    private val value: ColorValue
+    private val colorValue: ColorValue
 ) {
     private fun CodeBlock.Builder.color(
         name: String,
@@ -28,7 +28,7 @@ class ColorSchemeProperty(
     ) {
         val rgb = color.convert(ColorSpaces.Srgb)
         add(
-            when (value) {
+            when (colorValue) {
                 ColorValue.RGB -> CodeBlock.of(
                     "%L = %T(%L, %L, %L, %L)",
                     name,
@@ -112,11 +112,11 @@ class ColorSchemeProperty(
             .build()
 
     private companion object Default {
-        val ColorSchemeClass by lazy {
+        val ColorSchemeClass by lazy(LazyThreadSafetyMode.NONE) {
             ClassName("androidx.compose.material3", "ColorScheme")
         }
 
-        val ColorClass by lazy {
+        val ColorClass by lazy(LazyThreadSafetyMode.NONE) {
             ClassName("androidx.compose.ui.graphics", "Color")
         }
     }

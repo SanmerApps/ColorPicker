@@ -1,6 +1,7 @@
 package dev.sanmer.color.picker.ui.main
 
 import android.content.ClipData
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -162,27 +163,26 @@ fun MainScreen(
 
 @Composable
 private fun ButtonsItem(
-    importJson: (Uri) -> Unit,
-    exportJson: (Uri) -> Unit,
-    exportKotlin: (Uri) -> Unit,
+    importJson: (Context, Uri) -> Unit,
+    exportJson: (Context, Uri) -> Unit,
+    exportKotlin: (Context, Uri) -> Unit,
     colorValue: ColorValue,
     setColorValue: (ColorValue) -> Unit
 ) = OutlinedCard(
     shape = RoundedCornerShape(15.dp)
 ) {
+    val context = LocalContext.current
     val importJsonLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
-        onResult = { uri -> if (uri != null) importJson(uri) }
+        onResult = { uri -> if (uri != null) importJson(context, uri) }
     )
-
     val exportJsonLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(ColorJson.MIME_TYPE),
-        onResult = { uri -> if (uri != null) exportJson(uri) }
+        onResult = { uri -> if (uri != null) exportJson(context, uri) }
     )
-
     val exportKotlinLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(ColorKt.MIME_TYPE),
-        onResult = { uri -> if (uri != null) exportKotlin(uri) }
+        onResult = { uri -> if (uri != null) exportKotlin(context, uri) }
     )
 
     FlowRow(

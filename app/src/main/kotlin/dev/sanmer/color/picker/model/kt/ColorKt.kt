@@ -13,13 +13,13 @@ data class ColorKt(
         val lightColorScheme by ColorSchemeProperty(
             name = "LightColorScheme",
             colorScheme = light,
-            value = value
+            colorValue = value
         )
 
         val darkColorScheme by ColorSchemeProperty(
             name = "DarkColorScheme",
             colorScheme = dark,
-            value = value
+            colorValue = value
         )
 
         val content = FileSpec.builder("", "")

@@ -2,8 +2,10 @@ package dev.sanmer.color.picker.ui.main
 
 import android.content.Context
 import android.net.Uri
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.sanmer.color.picker.Logger
-import dev.sanmer.color.picker.annotation.ApplicationContext
 import dev.sanmer.color.picker.model.ColorValue
 import dev.sanmer.color.picker.model.json.ColorJson
 import dev.sanmer.color.picker.model.kt.ColorKt
@@ -21,14 +22,9 @@ import dev.sanmer.color.picker.model.ui.ColorSchemeCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    @ApplicationContext private val context: Context
-) : ViewModel() {
-    private val dynamicLightColorScheme get() = dynamicLightColorScheme(context)
-    private val dynamicDarkColorScheme get() = dynamicDarkColorScheme(context)
-
-    private var lightColorScheme by mutableStateOf(dynamicLightColorScheme)
-    private var darkColorScheme by mutableStateOf(dynamicDarkColorScheme)
+class MainViewModel : ViewModel() {
+    private var lightColorScheme by mutableStateOf(lightColorScheme())
+    private var darkColorScheme by mutableStateOf(darkColorScheme())
 
     val lightColors by derivedStateOf { ColorSchemeCompat(lightColorScheme) }
     val darkColors by derivedStateOf { ColorSchemeCompat(darkColorScheme) }
@@ -39,9 +35,9 @@ class MainViewModel(
 
     private val logger = Logger.Android("MainViewModel")
 
-    fun reload() {
-        lightColorScheme = dynamicLightColorScheme
-        darkColorScheme = dynamicDarkColorScheme
+    fun reload(context: Context) {
+        lightColorScheme = dynamicLightColorScheme(context)
+        darkColorScheme = dynamicDarkColorScheme(context)
     }
 
     fun colorScheme(darkTheme: Boolean) = when {
@@ -49,7 +45,7 @@ class MainViewModel(
         else -> lightColorScheme
     }
 
-    fun importFromJson(uri: Uri) {
+    fun importFromJson(context: Context, uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 checkNotNull(context.contentResolver.openInputStream(uri)).use { input ->
@@ -64,14 +60,13 @@ class MainViewModel(
         }
     }
 
-    fun exportToJson(uri: Uri) {
+    fun exportToJson(context: Context, uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 val colorJson = ColorJson(
                     light = lightColorScheme,
                     dark = darkColorScheme
                 )
-
                 checkNotNull(context.contentResolver.openOutputStream(uri)).use { output ->
                     colorJson.encodeTo(colorValue, output)
                 }
@@ -81,14 +76,13 @@ class MainViewModel(
         }
     }
 
-    fun exportToKotlin(uri: Uri) {
+    fun exportToKotlin(context: Context, uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 val colorKt = ColorKt(
                     light = lightColorScheme,
                     dark = darkColorScheme
                 )
-
                 checkNotNull(context.contentResolver.openOutputStream(uri)).use { output ->
                     colorKt.encodeTo(colorValue, output)
                 }

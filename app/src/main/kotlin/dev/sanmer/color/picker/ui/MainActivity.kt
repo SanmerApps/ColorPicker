@@ -20,7 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            SideEffect(viewModel::reload)
+            SideEffect {
+                viewModel.reload(this)
+            }
 
             AppTheme(
                 colorScheme = viewModel::colorScheme
