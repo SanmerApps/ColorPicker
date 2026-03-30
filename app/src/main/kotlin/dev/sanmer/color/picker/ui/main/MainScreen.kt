@@ -68,6 +68,7 @@ import dev.sanmer.color.picker.model.json.ColorJson
 import dev.sanmer.color.picker.model.kt.ColorKt
 import dev.sanmer.color.picker.model.ui.ColorCompat
 import dev.sanmer.color.picker.ui.component.CheckIcon
+import dev.sanmer.color.picker.ui.component.DragHandle
 import dev.sanmer.color.picker.ui.ktx.bottom
 import dev.sanmer.color.picker.ui.ktx.surface
 import kotlinx.coroutines.launch
@@ -333,8 +334,11 @@ private fun ColorBottomSheet(
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = onDismiss,
-        shape = MaterialTheme.shapes.large.bottom(0.dp)
+        shape = MaterialTheme.shapes.large.bottom(0.dp),
+        dragHandle = null
     ) {
+        DragHandle()
+
         Text(
             text = color.name,
             style = MaterialTheme.typography.headlineSmall,
