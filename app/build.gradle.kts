@@ -72,6 +72,12 @@ android {
     dependenciesInfo.includeInApk = false
 }
 
+androidComponents.onVariants { variant ->
+    variant.outputs.forEach {
+        it.outputFileName = "ColorPicker-${it.versionName.get()}-${it.versionCode.get()}-${variant.buildType}.apk"
+    }
+}
+
 dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
