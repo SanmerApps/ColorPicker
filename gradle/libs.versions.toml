@@ -7,7 +7,6 @@ androidxComposeMaterial3 = "1.4.0"
 androidxCore = "1.18.0"
 androidxCoreSplashscreen = "1.2.0"
 androidxLifecycle = "2.10.0"
-androidxNavigation = "2.9.8"
 koin = "4.2.1"
 kotlin = "2.3.21"
 kotlinPoet = "2.3.0"
@@ -32,7 +31,6 @@ androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidxCore
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigation" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
