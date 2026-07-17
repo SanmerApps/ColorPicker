@@ -77,7 +77,7 @@ androidComponents.onVariants { variant ->
     variant.outputs.forEach { output ->
         output.outputFileName =
             output.versionName.zip(output.versionCode) { versionName, versionCode ->
-                "ColorPicker-$versionName-$versionCode.-${variant.buildType}.apk"
+                "ColorPicker-$versionName-$versionCode-${variant.buildType}.apk"
             }
     }
 }
