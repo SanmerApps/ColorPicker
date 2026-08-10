@@ -10,7 +10,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.sanmer.color.picker.Logger
@@ -31,7 +30,7 @@ class MainViewModel : ViewModel() {
 
     var colorValue by mutableStateOf(ColorValue.RGB)
 
-    var color by mutableStateOf(ColorCompat("", Color.Unspecified, Color.Unspecified))
+    var bottomSheet by mutableStateOf<BottomSheet>(BottomSheet.None)
 
     private val logger = Logger.Android("MainViewModel")
 
@@ -90,5 +89,10 @@ class MainViewModel : ViewModel() {
                 logger.e(it)
             }
         }
+    }
+
+    sealed interface BottomSheet {
+        data object None : BottomSheet
+        data class Color(val color: ColorCompat) : BottomSheet
     }
 }

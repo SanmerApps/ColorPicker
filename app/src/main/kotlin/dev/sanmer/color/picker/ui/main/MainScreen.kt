@@ -55,6 +55,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.toClipEntry
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import dev.sanmer.color.picker.Const
 import dev.sanmer.color.picker.R
@@ -71,6 +72,7 @@ import dev.sanmer.color.picker.ui.component.CheckIcon
 import dev.sanmer.color.picker.ui.component.DragHandle
 import dev.sanmer.color.picker.ui.ktx.bottom
 import dev.sanmer.color.picker.ui.ktx.surface
+import dev.sanmer.color.picker.ui.main.MainViewModel.BottomSheet
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -79,10 +81,14 @@ fun MainScreen(
     viewModel: MainViewModel = koinViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    if (viewModel.color.name.isNotEmpty()) ColorBottomSheet(
-        color = viewModel.color,
-        onDismiss = { viewModel.color = viewModel.color.copy(name = "") }
-    )
+
+    when (val bs = viewModel.bottomSheet) {
+        BottomSheet.None -> {}
+        is BottomSheet.Color -> ColorBottomSheet(
+            color = bs.color,
+            onDismiss = { viewModel.bottomSheet = BottomSheet.None }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -108,55 +114,55 @@ fun MainScreen(
             ColorsItem(
                 lightColors = viewModel.lightColors.primary,
                 darkColors = viewModel.darkColors.primary,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
 
             ColorsItem(
                 lightColors = emptyList(),
                 darkColors = viewModel.darkColors.primaryFixed,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.secondary,
                 darkColors = viewModel.darkColors.secondary,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
 
             ColorsItem(
                 lightColors = emptyList(),
                 darkColors = viewModel.darkColors.secondaryFixed,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.tertiary,
                 darkColors = viewModel.darkColors.tertiary,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
 
             ColorsItem(
                 lightColors = emptyList(),
                 darkColors = viewModel.darkColors.tertiaryFixed,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.error,
                 darkColors = viewModel.darkColors.error,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.surface,
                 darkColors = viewModel.darkColors.surface,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
 
             ColorsItem(
                 lightColors = viewModel.lightColors.other,
                 darkColors = viewModel.darkColors.other,
-                onColor = { viewModel.color = it }
+                onColor = { viewModel.bottomSheet = BottomSheet.Color(it) }
             )
         }
     }
@@ -399,7 +405,8 @@ private fun ValueItem(
 
         Text(
             text = value,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            fontFamily = FontFamily.Monospace
         )
     }
 }
