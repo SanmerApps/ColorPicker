@@ -11,7 +11,7 @@ kotlin = "2.4.10"
 kotlinPoet = "2.3.0"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.11.0"
-ksp = "2.3.7"
+ksp = "2.3.11"
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle-api", version.ref = "androidGradlePlugin" }
