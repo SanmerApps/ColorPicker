@@ -207,28 +207,12 @@ private fun ButtonsItem(
         OutlinedButton(
             onClick = { importJsonLauncher.launch(ColorJson.MIME_TYPE) }
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.json),
-                contentDescription = null,
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-
-            Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
-
             Text(text = stringResource(id = R.string.home_import))
         }
 
         FilledTonalButton(
             onClick = { exportJsonLauncher.launch(ColorJson.FILE_NAME) }
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.json),
-                contentDescription = null,
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-
-            Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
-
             Text(text = stringResource(id = R.string.home_export))
         }
 
@@ -236,14 +220,14 @@ private fun ButtonsItem(
             onClick = { exportKotlinLauncher.launch(ColorKt.FILE_NAME) }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.brand_kotlin),
+                painter = painterResource(id = R.drawable.code),
                 contentDescription = null,
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
 
             Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
 
-            Text(text = stringResource(id = R.string.home_export))
+            Text(text = "Kotlin")
         }
     }
 }
@@ -354,7 +338,7 @@ private fun ColorBottomSheet(
         )
 
         ValueItem(
-            icon = R.drawable.color_filter,
+            icon = R.drawable.palette,
             value = rgbValue,
             modifier = Modifier.padding(horizontal = 20.dp)
         )
