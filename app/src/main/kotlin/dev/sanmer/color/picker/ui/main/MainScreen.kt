@@ -16,12 +16,11 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
@@ -31,24 +30,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
@@ -100,8 +95,8 @@ fun MainScreen(
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
-                .padding(all = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+                .padding(15.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             ButtonsItem(
                 colorValue = viewModel.colorValue,
@@ -175,8 +170,17 @@ private fun ButtonsItem(
     exportKotlin: (Context, Uri) -> Unit,
     colorValue: ColorValue,
     setColorValue: (ColorValue) -> Unit
-) = OutlinedCard(
-    shape = RoundedCornerShape(15.dp)
+) = FlowRow(
+    modifier = Modifier
+        .fillMaxWidth()
+        .surface(
+            shape = MaterialTheme.shapes.large,
+            backgroundColor = MaterialTheme.colorScheme.surface,
+            border = CardDefaults.outlinedCardBorder(false)
+        )
+        .padding(15.dp),
+    horizontalArrangement = Arrangement.spacedBy(15.dp),
+    verticalArrangement = Arrangement.spacedBy(12.dp)
 ) {
     val context = LocalContext.current
     val importJsonLauncher = rememberLauncherForActivityResult(
@@ -192,43 +196,35 @@ private fun ButtonsItem(
         onResult = { uri -> if (uri != null) exportKotlin(context, uri) }
     )
 
-    FlowRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ColorValueButton(
+        colorValue = colorValue,
+        setColorValue = setColorValue
+    )
+
+    OutlinedButton(
+        onClick = { importJsonLauncher.launch(ColorJson.MIME_TYPE) }
     ) {
-        ColorValueButton(
-            colorValue = colorValue,
-            setColorValue = setColorValue
+        Text(text = stringResource(id = R.string.home_import))
+    }
+
+    FilledTonalButton(
+        onClick = { exportJsonLauncher.launch(ColorJson.FILE_NAME) }
+    ) {
+        Text(text = stringResource(id = R.string.home_export))
+    }
+
+    FilledTonalButton(
+        onClick = { exportKotlinLauncher.launch(ColorKt.FILE_NAME) }
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.code),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.IconSize)
         )
 
-        OutlinedButton(
-            onClick = { importJsonLauncher.launch(ColorJson.MIME_TYPE) }
-        ) {
-            Text(text = stringResource(id = R.string.home_import))
-        }
+        Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
 
-        FilledTonalButton(
-            onClick = { exportJsonLauncher.launch(ColorJson.FILE_NAME) }
-        ) {
-            Text(text = stringResource(id = R.string.home_export))
-        }
-
-        FilledTonalButton(
-            onClick = { exportKotlinLauncher.launch(ColorKt.FILE_NAME) }
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.code),
-                contentDescription = null,
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-
-            Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
-
-            Text(text = "Kotlin")
-        }
+        Text(text = "Kotlin")
     }
 }
 
@@ -257,29 +253,27 @@ private fun ColorsItem(
     lightColors: List<ColorCompat>,
     darkColors: List<ColorCompat>,
     onColor: (ColorCompat) -> Unit
-) = Surface(
-    shape = RoundedCornerShape(15.dp)
+) = Row(
+    modifier = Modifier
+        .clip(MaterialTheme.shapes.large)
+        .fillMaxWidth()
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth()
+    if (lightColors.isNotEmpty()) Column(
+        modifier = Modifier.weight(1f)
     ) {
-        if (lightColors.isNotEmpty()) Column(
-            modifier = Modifier.fillMaxWidth(0.5f)
-        ) {
-            lightColors.forEach {
-                ColorItem(it) {
-                    onColor(it)
-                }
+        lightColors.forEach {
+            ColorItem(it) {
+                onColor(it)
             }
         }
+    }
 
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            darkColors.forEach {
-                ColorItem(it) {
-                    onColor(it)
-                }
+    Column(
+        modifier = Modifier.weight(1f)
+    ) {
+        darkColors.forEach {
+            ColorItem(it) {
+                onColor(it)
             }
         }
     }
@@ -291,14 +285,11 @@ private fun ColorItem(
     onClick: () -> Unit
 ) = Box(
     modifier = Modifier
-        .clickable(
-            enabled = true,
-            onClick = onClick
-        )
-        .background(color = color.containerColor)
+        .clickable(onClick = onClick)
+        .background(color.containerColor)
         .fillMaxWidth()
-        .requiredHeightIn(min = 65.dp)
-        .padding(all = 15.dp),
+        .height(65.dp)
+        .padding(15.dp),
     contentAlignment = Alignment.TopStart
 ) {
     Text(
@@ -312,43 +303,35 @@ private fun ColorItem(
 private fun ColorBottomSheet(
     color: ColorCompat,
     onDismiss: () -> Unit
+) = ModalBottomSheet(
+    onDismissRequest = onDismiss,
+    sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    shape = MaterialTheme.shapes.large.bottom(0.dp),
+    dragHandle = null
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val hexValue by remember { derivedStateOf { color.containerColor.hexValue } }
-    val rgbValue by remember {
-        derivedStateOf {
-            with(color.containerColor) { "(${redValue}, ${greenValue}, ${blueValue}, ${alphaValue})" }
-        }
-    }
+    DragHandle()
 
-    ModalBottomSheet(
-        sheetState = sheetState,
-        onDismissRequest = onDismiss,
-        shape = MaterialTheme.shapes.large.bottom(0.dp),
-        dragHandle = null
-    ) {
-        DragHandle()
+    Text(
+        text = color.name,
+        style = MaterialTheme.typography.headlineSmall,
+        modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(bottom = 15.dp)
+    )
 
-        Text(
-            text = color.name,
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 20.dp)
-        )
+    ValueItem(
+        icon = R.drawable.palette,
+        value = with(color.containerColor) {
+            "(${redValue}, ${greenValue}, ${blueValue}, ${alphaValue})"
+        },
+        modifier = Modifier.padding(horizontal = 15.dp)
+    )
 
-        ValueItem(
-            icon = R.drawable.palette,
-            value = rgbValue,
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
-
-        ValueItem(
-            icon = R.drawable.hash,
-            value = hexValue,
-            modifier = Modifier.padding(all = 20.dp)
-        )
-    }
+    ValueItem(
+        icon = R.drawable.hash,
+        value = color.containerColor.hexValue,
+        modifier = Modifier.padding(15.dp)
+    )
 }
 
 @Composable
@@ -366,10 +349,9 @@ private fun ValueItem(
             .surface(
                 shape = MaterialTheme.shapes.medium,
                 backgroundColor = MaterialTheme.colorScheme.surface,
-                border = CardDefaults.outlinedCardBorder()
+                border = CardDefaults.outlinedCardBorder(false)
             )
             .clickable(
-                enabled = true,
                 onClick = {
                     scope.launch {
                         clipboard.setClipEntry(
@@ -378,7 +360,7 @@ private fun ValueItem(
                     }
                 }
             )
-            .padding(all = 20.dp),
+            .padding(20.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
