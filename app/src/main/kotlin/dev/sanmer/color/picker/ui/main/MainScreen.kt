@@ -69,11 +69,10 @@ import dev.sanmer.color.picker.ui.ktx.bottom
 import dev.sanmer.color.picker.ui.ktx.surface
 import dev.sanmer.color.picker.ui.main.MainViewModel.BottomSheet
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel = koinViewModel()
+    viewModel: MainViewModel
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 

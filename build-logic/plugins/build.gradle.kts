@@ -6,7 +6,6 @@ dependencies {
     compileOnly(libs.android.gradle)
     compileOnly(libs.compose.gradle)
     compileOnly(libs.kotlin.gradle)
-    compileOnly(libs.ksp.gradle)
 }
 
 gradlePlugin {
@@ -14,11 +13,6 @@ gradlePlugin {
         register("self.application") {
             id = "self.application"
             implementationClass = "ApplicationConventionPlugin"
-        }
-        
-        register("self.library") {
-            id = "self.library"
-            implementationClass = "LibraryConventionPlugin"
         }
 
         register("self.compose") {

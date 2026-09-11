@@ -6,18 +6,15 @@ androidxComposeBom = "2026.09.00"
 androidxCore = "1.19.0"
 androidxCoreSplashscreen = "1.2.0"
 androidxLifecycle = "2.11.0"
-koin = "4.2.2"
 kotlin = "2.4.20"
 kotlinPoet = "2.4.0"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.11.0"
-ksp = "2.3.12"
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle-api", version.ref = "androidGradlePlugin" }
 compose-gradle = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-ksp-gradle = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppCompat" }
@@ -31,19 +28,14 @@ androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidxCore
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 squareup-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 
 [plugins]
 self-application = { id = "self.application" }
-self-library = { id = "self.library" }
 self-compose = { id = "self.compose" }
 
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

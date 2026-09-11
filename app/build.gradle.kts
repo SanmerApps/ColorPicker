@@ -11,14 +11,13 @@ val baseVersionName = "0.2.0"
 val gitCommitTag = gitCommitTag()
 val gitCommitSha = gitCommitSha()
 val gitCommitNum = gitCommitNum()
-val devSuffix = if (gitCommitTag.isEmpty()) ".dev" else ""
 
 android {
     namespace = "dev.sanmer.color.picker"
 
     defaultConfig {
         applicationId = namespace
-        versionName = "${baseVersionName}.${gitCommitSha}${devSuffix}"
+        versionName = baseVersionName + if (gitCommitTag.isEmpty()) ".$gitCommitSha" else ""
         versionCode = gitCommitNum
         ndk.abiFilters += listOf("arm64-v8a", "x86_64")
     }
@@ -54,9 +53,6 @@ android {
     }
 
     packaging {
-        jniLibs.excludes += setOf(
-            "**/libdatastore_shared_counter.so"
-        )
         resources.excludes += setOf(
             "META-INF/**",
             "kotlin/**",
@@ -95,8 +91,6 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.koin.android)
-    implementation(libs.koin.compose)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.squareup.kotlinpoet) {
