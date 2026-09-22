@@ -2,6 +2,7 @@ package dev.sanmer.color.picker.ui.main
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -12,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.sanmer.color.picker.Logger
 import dev.sanmer.color.picker.model.ColorValue
 import dev.sanmer.color.picker.model.json.ColorJson
 import dev.sanmer.color.picker.model.kt.ColorKt
@@ -32,8 +32,6 @@ class MainViewModel : ViewModel() {
 
     var bottomSheet by mutableStateOf<BottomSheet>(BottomSheet.None)
 
-    private val logger = Logger.Android("MainViewModel")
-
     fun reload(context: Context) {
         lightColorScheme = dynamicLightColorScheme(context)
         darkColorScheme = dynamicDarkColorScheme(context)
@@ -47,14 +45,12 @@ class MainViewModel : ViewModel() {
     fun importFromJson(context: Context, uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                checkNotNull(context.contentResolver.openInputStream(uri)).use { input ->
-                    ColorJson.decodeFrom(colorValue, input)
-                }
-            }.onSuccess {
-                lightColorScheme = it.light
-                darkColorScheme = it.dark
+                val stream = context.contentResolver.openInputStream(uri) ?: return@launch
+                val colorJson = stream.use { input -> ColorJson.decodeFrom(colorValue, input) }
+                lightColorScheme = colorJson.light
+                darkColorScheme = colorJson.dark
             }.onFailure {
-                logger.e(it)
+                Log.e(TAG, "importFromJson", it)
             }
         }
     }
@@ -62,15 +58,11 @@ class MainViewModel : ViewModel() {
     fun exportToJson(context: Context, uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                val colorJson = ColorJson(
-                    light = lightColorScheme,
-                    dark = darkColorScheme
-                )
-                checkNotNull(context.contentResolver.openOutputStream(uri)).use { output ->
-                    colorJson.encodeTo(colorValue, output)
-                }
+                val stream = context.contentResolver.openOutputStream(uri) ?: return@launch
+                val colorJson = ColorJson(light = lightColorScheme, dark = darkColorScheme)
+                stream.use { output -> colorJson.encodeTo(colorValue, output) }
             }.onFailure {
-                logger.e(it)
+                Log.e(TAG, "exportToJson", it)
             }
         }
     }
@@ -78,15 +70,11 @@ class MainViewModel : ViewModel() {
     fun exportToKotlin(context: Context, uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                val colorKt = ColorKt(
-                    light = lightColorScheme,
-                    dark = darkColorScheme
-                )
-                checkNotNull(context.contentResolver.openOutputStream(uri)).use { output ->
-                    colorKt.encodeTo(colorValue, output)
-                }
+                val stream = context.contentResolver.openOutputStream(uri) ?: return@launch
+                val colorKt = ColorKt(light = lightColorScheme, dark = darkColorScheme)
+                stream.use { output -> colorKt.encodeTo(colorValue, output) }
             }.onFailure {
-                logger.e(it)
+                Log.e(TAG, "exportToKotlin", it)
             }
         }
     }
@@ -94,5 +82,9 @@ class MainViewModel : ViewModel() {
     sealed interface BottomSheet {
         data object None : BottomSheet
         data class Color(val color: ColorCompat) : BottomSheet
+    }
+
+    private companion object Default {
+        const val TAG = "MainViewModel"
     }
 }
