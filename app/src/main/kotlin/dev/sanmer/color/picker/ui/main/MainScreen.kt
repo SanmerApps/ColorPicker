@@ -63,8 +63,7 @@ import dev.sanmer.color.picker.model.ColorValue
 import dev.sanmer.color.picker.model.json.ColorJson
 import dev.sanmer.color.picker.model.kt.ColorKt
 import dev.sanmer.color.picker.model.ui.ColorCompat
-import dev.sanmer.color.picker.ui.component.CheckIcon
-import dev.sanmer.color.picker.ui.component.DragHandle
+import dev.sanmer.color.picker.ui.component.Check
 import dev.sanmer.color.picker.ui.ktx.bottom
 import dev.sanmer.color.picker.ui.ktx.surface
 import dev.sanmer.color.picker.ui.main.MainViewModel.BottomSheet
@@ -240,7 +239,7 @@ private fun ColorValueButton(
                 index = index,
                 count = ColorValue.entries.size
             ),
-            icon = { SegmentedButtonDefaults.CheckIcon(colorValue == value) }
+            icon = { SegmentedButtonDefaults.Check(colorValue == value) }
         ) {
             Text(text = value.name)
         }
@@ -308,14 +307,12 @@ private fun ColorBottomSheet(
     shape = MaterialTheme.shapes.large.bottom(0.dp),
     dragHandle = null
 ) {
-    DragHandle()
-
     Text(
         text = color.name,
         style = MaterialTheme.typography.headlineSmall,
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .padding(bottom = 15.dp)
+            .padding(top = 30.dp, bottom = 15.dp)
     )
 
     ValueItem(

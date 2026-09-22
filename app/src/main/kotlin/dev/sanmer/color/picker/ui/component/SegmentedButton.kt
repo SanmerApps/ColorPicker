@@ -9,13 +9,13 @@ import androidx.compose.ui.res.painterResource
 import dev.sanmer.color.picker.R
 
 @Composable
-fun SegmentedButtonDefaults.CheckIcon(
+fun SegmentedButtonDefaults.Check(
     active: Boolean
 ) = Icon(
     active = active,
     activeContent = {
         Icon(
-            painter = painterResource(R.drawable.check),
+            painter = painterResource(R.drawable.check_bold),
             contentDescription = null,
             modifier = Modifier.size(IconSize)
         )
