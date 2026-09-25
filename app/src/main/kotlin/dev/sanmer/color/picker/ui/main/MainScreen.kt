@@ -79,7 +79,7 @@ fun MainScreen(
         BottomSheet.None -> {}
         is BottomSheet.Color -> ColorBottomSheet(
             color = bs.color,
-            onDismiss = { viewModel.bottomSheet = BottomSheet.None }
+            onClose = { viewModel.bottomSheet = BottomSheet.None }
         )
     }
 
@@ -300,11 +300,11 @@ private fun ColorItem(
 @Composable
 private fun ColorBottomSheet(
     color: ColorCompat,
-    onDismiss: () -> Unit
+    onClose: () -> Unit
 ) = ModalBottomSheet(
-    onDismissRequest = onDismiss,
+    onDismissRequest = onClose,
     sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-    shape = MaterialTheme.shapes.large.bottom(0.dp),
+    shape = MaterialTheme.shapes.extraLarge.bottom(0.dp),
     dragHandle = null
 ) {
     Text(
@@ -312,7 +312,7 @@ private fun ColorBottomSheet(
         style = MaterialTheme.typography.headlineSmall,
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .padding(top = 30.dp, bottom = 15.dp)
+            .padding(top = 30.dp, bottom = 25.dp)
     )
 
     ValueItem(
