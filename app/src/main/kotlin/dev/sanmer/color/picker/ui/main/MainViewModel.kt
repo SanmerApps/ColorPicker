@@ -7,7 +7,6 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -25,8 +24,8 @@ class MainViewModel : ViewModel() {
     private var lightColorScheme by mutableStateOf(lightColorScheme())
     private var darkColorScheme by mutableStateOf(darkColorScheme())
 
-    val lightColors by derivedStateOf { ColorSchemeCompat(lightColorScheme) }
-    val darkColors by derivedStateOf { ColorSchemeCompat(darkColorScheme) }
+    val lightColors get() = ColorSchemeCompat(lightColorScheme)
+    val darkColors get() = ColorSchemeCompat(darkColorScheme)
 
     var colorValue by mutableStateOf(ColorValue.RGB)
 
