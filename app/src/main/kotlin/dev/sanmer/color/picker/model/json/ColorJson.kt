@@ -3,6 +3,7 @@ package dev.sanmer.color.picker.model.json
 import androidx.compose.material3.ColorScheme
 import dev.sanmer.color.picker.model.ColorValue
 import kotlinx.serialization.Contextual
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -19,6 +20,7 @@ class ColorJson(
     @Contextual
     val dark: ColorScheme
 ) {
+    @OptIn(ExperimentalSerializationApi::class)
     fun encodeTo(value: ColorValue, output: OutputStream) {
         when (value) {
             ColorValue.RGB -> rgbJson
@@ -43,6 +45,7 @@ class ColorJson(
         const val MIME_TYPE = "application/json"
         const val FILE_NAME = "color.json"
 
+        @OptIn(ExperimentalSerializationApi::class)
         fun decodeFrom(value: ColorValue, input: InputStream): ColorJson =
             when (value) {
                 ColorValue.RGB -> rgbJson
